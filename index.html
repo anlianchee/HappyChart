@@ -7,9 +7,9 @@
     <style>
         :root {
             --primary-color: #4CAF50;
-            --category-color-1: #3498db; /* Gameplay 藍色 */
-            --category-color-2: #9b59b6; /* 劇情動畫 紫色 */
-            --category-color-3: #e74c3c; /* 約會動畫 紅色 */
+            --category-color-1: #3498db; 
+            --category-color-2: #9b59b6; 
+            --category-color-3: #e74c3c; 
             --bg-color: #F4F7F6;
             --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #333333;
@@ -36,7 +36,6 @@
         }
         .back-btn:hover { background: #f0f0f0; transform: translateX(-3px); }
         
-        /* 專案標題與編輯按鈕 */
         .main-title-wrapper { display: flex; align-items: center; gap: 10px; }
         .main-title { font-size: 32px; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(255,255,255,0.8); }
         .header-edit-btn { font-size: 20px; cursor: pointer; opacity: 0; transition: 0.2s ease; }
@@ -66,7 +65,6 @@
         
         .roadmap-line { width: 25px; height: 3px; background: #EEEEEE; margin: 0 5px; transition: 0.3s; border-radius: 2px;}
         
-        /* Roadmap 新增按鈕 */
         .roadmap-add-btn {
             display: flex; align-items: center; justify-content: center;
             width: 26px; height: 26px; border-radius: 50%; background: #EEEEEE; color: #888;
@@ -81,10 +79,16 @@
             100% { box-shadow: 0 0 0 2px #0288D1 inset, 0 0 0 0 rgba(2, 136, 209, 0); }
         }
 
-        /* 鎖定按鈕與橡皮擦的容器 */
-        .header-controls {
-            margin-left: auto; display: flex; align-items: center; gap: 12px;
+        .header-controls { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end;}
+
+        /* 雲端存檔/讀取按鈕樣式 */
+        .cloud-btn {
+            background: #FFFFFF; border: 2px solid #E0E0E0; padding: 8px 12px;
+            border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 15px;
+            color: #555; transition: all 0.3s; display: flex; align-items: center; gap: 6px;
         }
+        .cloud-btn:hover:not(:disabled) { background: #f0f8ff; border-color: #3498db; color: #2980b9; transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .cloud-btn:disabled { opacity: 0.6; cursor: wait; }
 
         .lock-btn {
             background: transparent; border: none; font-size: 22px; cursor: pointer;
@@ -93,16 +97,13 @@
         }
         .lock-btn:hover { opacity: 0.9; transform: scale(1.1); filter: grayscale(0); }
         
-        /* 鎖定模式下隱藏所有增刪改按鈕 */
         body.locked-mode .delete-btn,
         body.locked-mode .add-btn,
         body.locked-mode .roadmap-delete,
         body.locked-mode .roadmap-add-btn,
         body.locked-mode .edit-btn,
         body.locked-mode .header-edit-btn,
-        body.locked-mode .roadmap-edit {
-            display: none !important;
-        }
+        body.locked-mode .roadmap-edit { display: none !important; }
 
         .eraser-btn {
             background: #FFFFFF; border: 2px solid #E0E0E0; padding: 8px 15px;
@@ -110,10 +111,7 @@
             color: #888; transition: all 0.3s; display: none; align-items: center; gap: 8px;
         }
         .eraser-btn:hover { border-color: #ff9999; color: #e74c3c; }
-        .eraser-btn.active {
-            background: #ffebee; border-color: #e74c3c; color: #e74c3c;
-            box-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
-        }
+        .eraser-btn.active { background: #ffebee; border-color: #e74c3c; color: #e74c3c; box-shadow: 0 0 10px rgba(231, 76, 60, 0.2); }
 
         .project-overview-panel {
             background: var(--card-bg); border-radius: 20px; padding: 30px;
@@ -121,22 +119,14 @@
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(10px);
         }
         
-        .ring-container {
-            position: relative; width: 180px; height: 180px; margin: 30px auto 60px auto; 
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .click-zone {
-            position: absolute; cursor: pointer; display: flex; justify-content: center; align-items: center;
-            z-index: 10; padding: 10px 15px; 
-        }
-
+        .ring-container { position: relative; width: 180px; height: 180px; margin: 30px auto 60px auto; display: flex; justify-content: center; align-items: center; }
+        .click-zone { position: absolute; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 10; padding: 10px 15px; }
         .zone-label { font-size: 24px; font-weight: 900; pointer-events: none; white-space: nowrap; }
 
-        /* 調整了偏移量，確保文字不會穿過圓環顏色區域 */
         .zone-left { right: 100%; top: 50%; transform: translate(-50px, -50%); }
         .zone-right { left: 100%; top: 50%; transform: translate(50px, -50%); }
         .zone-bottom { top: 100%; left: 50%; transform: translate(-50%, 25px); }
+        .zone-top { bottom: 100%; left: 50%; transform: translate(-50%, -25px); }
 
         .big-progress-ring {
             width: 180px; height: 180px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
@@ -154,7 +144,7 @@
             transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .category-card:hover .edit-btn, .category-card:hover .delete-btn { opacity: 0.5; } /* 顯示刪除按鈕 */
+        .category-card:hover .edit-btn, .category-card:hover .delete-btn { opacity: 0.5; } 
         
         .cat-title { font-size: 22px; font-weight: bold; }
         .med-progress-ring {
@@ -241,6 +231,9 @@
         <div id="roadmap-container" class="roadmap-container"></div>
         
         <div class="header-controls">
+            <button class="cloud-btn" id="btn-load-cloud" onclick="loadFromCloud()">☁️ 讀取進度</button>
+            <button class="cloud-btn" id="btn-save-cloud" onclick="saveToCloud()">💾 存檔至雲端</button>
+            
             <button class="eraser-btn" id="btn-eraser" onclick="toggleEraserMode()">🧹 橡皮擦 (OFF)</button>
             <button id="btn-lock" class="lock-btn" onclick="toggleLockMode()" title="切換編輯模式">🔒</button>
         </div>
@@ -280,8 +273,11 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'IslandProject_Data_v34'; // 更新了版本號
-        let isLocked = true; // 預設為鎖定模式
+        // 你剛才建立的 Google Apps Script 專屬 API 網址！
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyR38ijXFcnBWeIUyG4FS02rx4fziIx9huDm9xA8fT8yMzzwkYVJuEtyU0sUoylOUJ-JQ/exec';
+        
+        const STORAGE_KEY = 'IslandProject_Data_v34'; 
+        let isLocked = true; 
 
         const initData = {
             projectName: "XX戀愛物語",
@@ -314,17 +310,87 @@
         };
 
         let projectData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || initData;
-
         let activeCategoryIndex = null; 
         let activeGroupIndex = null; 
         let isEraserMode = false; 
 
-        // --- 新增功能區 ---
+        // ==========================================
+        // ☁️ 雲端同步功能核心邏輯
+        // ==========================================
+        async function saveToCloud() {
+            const btn = document.getElementById('btn-save-cloud');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ 處理中...';
+            btn.disabled = true;
+
+            try {
+                // 使用 fetch 將資料發送到 Google 試算表
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(projectData),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' } // 避免跨網域問題的特殊設定
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    btn.innerHTML = '✅ 存檔成功！';
+                    setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                console.error("雲端存檔錯誤：", error);
+                alert("雲端存檔失敗，請檢查網路連線。");
+                btn.innerHTML = '❌ 存檔失敗';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+            }
+        }
+
+        async function loadFromCloud() {
+            if (!confirm("確定要從雲端讀取進度嗎？這會覆蓋掉你目前畫面上的狀態喔！")) return;
+
+            const btn = document.getElementById('btn-load-cloud');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ 下載中...';
+            btn.disabled = true;
+
+            try {
+                // 讀取 Google 試算表的資料
+                const response = await fetch(GAS_URL);
+                const result = await response.json();
+                
+                if (result.status === 'success' && result.data) {
+                    projectData = result.data;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(projectData)); // 同步寫入本機
+                    
+                    // 退回首頁並重新渲染所有畫面
+                    activeCategoryIndex = null;
+                    activeGroupIndex = null;
+                    renderRoadmap();
+                    renderProjectView();
+                    
+                    btn.innerHTML = '✅ 讀取完畢！';
+                    setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+                } else if (result.status === 'empty') {
+                    alert("雲端資料庫目前是空的！請先點擊「存檔至雲端」上傳一次進度。");
+                    btn.innerHTML = originalText; btn.disabled = false;
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                console.error("雲端讀取錯誤：", error);
+                alert("雲端讀取失敗，請檢查網路連線。");
+                btn.innerHTML = '❌ 讀取失敗';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+            }
+        }
+        // ==========================================
+
         function toggleLockMode() {
             isLocked = !isLocked;
             document.body.classList.toggle('locked-mode', isLocked);
             document.getElementById('btn-lock').innerText = isLocked ? '🔒' : '🔓';
-            if (isLocked && isEraserMode) toggleEraserMode(); // 鎖定時自動關閉橡皮擦
+            if (isLocked && isEraserMode) toggleEraserMode(); 
         }
 
         function renameProject(event) {
@@ -369,7 +435,6 @@
                 renderProjectView();
             }
         }
-        // ------------------
 
         function renderRoadmap() {
             const container = document.getElementById('roadmap-container');
@@ -399,7 +464,6 @@
                 }
             });
 
-            // 加入 Roadmap 的新增按鈕
             const addBtn = document.createElement('div');
             addBtn.className = 'roadmap-add-btn';
             addBtn.innerText = '+';
@@ -497,7 +561,6 @@
                 const segmentSize = 100 / numCats; 
                 const notchGap = 0.2; 
                 
-                // 為了保持原本視覺邏輯，這裡做個防呆支援不同數量的分類
                 for (let i = 0; i < numCats; i++) {
                     const cat = projectData.categories[i];
                     const stats = getCategoryStats(cat);
@@ -902,7 +965,6 @@
         // 初始化
         renderRoadmap();
         renderProjectView();
-        // 確保初始時更新鎖定狀態的視覺效果
         document.getElementById('btn-lock').innerText = isLocked ? '🔒' : '🔓';
     </script>
 </body>
